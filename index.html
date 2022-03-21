@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Vertical (basic) form</h2>
+      <form action="/">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter email"
+            name="email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="pwd"
+            placeholder="Enter password"
+            name="pwd"
+          />
+        </div>
+        <div id="selectedBanner"></div>
+        <div class="form-group">
+          <label for="pwd">Image:</label>
+          <input type="file" class="form-control" name="image" id="img" />
+        </div>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      var selDiv = "";
+      var storedFiles = [];
+      $(document).ready(function () {
+        $("#img").on("change", handleFileSelect);
+        selDiv = $("#selectedBanner");
+      });
+
+      function handleFileSelect(e) {
+        var files = e.target.files;
+        var filesArr = Array.prototype.slice.call(files);
+        filesArr.forEach(function (f) {
+          if (!f.type.match("image.*")) {
+            return;
+          }
+          storedFiles.push(f);
+
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var html =
+              '<img src="' +
+              e.target.result +
+              "\" data-file='" +
+              f.name +
+              "alt='Category Image' height='200px' width='200px'>";
+            selDiv.html(html);
+          };
+          reader.readAsDataURL(f);
+        });
+      }
+    </script>
+  </body>
+</html>
